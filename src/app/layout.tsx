@@ -1,6 +1,19 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import {
+  ClerkProvider,
+  SignInButton,
+  SignUpButton,
+  SignedIn,
+  SignedOut,
+  UserButton,
+  SignIn,
+} from '@clerk/nextjs'
+import { Toaster } from "react-hot-toast";
+import { ThemeProvider } from "@/components/theme-provider";
+import { shadesOfPurple } from "@clerk/themes";
+import Header from "@/components/header";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -23,12 +36,41 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
-      </body>
-    </html>
-  );
+    <ClerkProvider
+      appearance={{
+        baseTheme: shadesOfPurple,
+        variables: {
+          colorPrimary: "#3b82f6",
+          colorBackground: "#111827",
+          colorInputBackground: "#1f2937",
+          colorText: "#e5e7eb",
+        },
+        elements: {
+          formButtonPrimary: {
+            colorBackground: "#3b82f6",
+            colorText: "#ffffff",
+          },
+        },
+      }}
+    >
+      <html lang="en" suppressHydrationWarning>
+        <body className={`${geistSans.variable} ${geistMono.variable} antialiased dotted-bg`}>
+          <ThemeProvider attribute="class" defaultTheme="dark">
+          <Header />
+          <main className="min-h-screen">
+
+          {children}
+          </main>
+          <footer className="bg-gray-900 py-12">
+            <div className="container  mx-auto text-center">
+
+            <p>Made with ❤️ by Akshat Chopra</p>
+            </div>
+          </footer>
+          <Toaster />
+        </ThemeProvider>
+        </body>
+      </html>
+    </ClerkProvider>
+  )
 }
