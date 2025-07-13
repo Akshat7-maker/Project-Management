@@ -7,8 +7,18 @@ import DeleteProject from './delete-project';
 import { useRouter } from 'next/navigation';
 import { BarLoader } from 'react-spinners';
 
+interface Project {
+  id: string;
+  name: string;
+  description: string;
+}
 
-function Projectlist({projects, ondelete}) {
+interface ProjectListProps {
+  projects: Project[];
+  ondelete: (id: string) => void;
+}
+
+function Projectlist({ projects, ondelete }: ProjectListProps) {
 
   const router = useRouter();
 
