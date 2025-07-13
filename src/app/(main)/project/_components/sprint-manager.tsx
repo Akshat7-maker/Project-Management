@@ -16,7 +16,7 @@ import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 
-function SprintManager({ sprints, projectId, orgId, setSprint, sprint }) {
+function SprintManager({ sprints, projectId, orgId, setSprint, sprint }: any): JSX.Element {
   console.log("sprints", sprints);
 
   const router = useRouter();
@@ -46,13 +46,13 @@ function SprintManager({ sprints, projectId, orgId, setSprint, sprint }) {
   console.log("canEnd", canEnd);
 
   //   handle sprint change
-  const handleSprintChange = (value) => {
+  const handleSprintChange = (value: any) => {
     const selectedSprint = sprints.find((sprint) => sprint.id === value);
     setSprint(selectedSprint);
   };
 
   //   handle sprint status change
-  const handleSprintStatusChange = async (sprintId, status) => {
+  const handleSprintStatusChange = async (sprintId: any, status: any) => {
     try {
       const result = await updatedSprintFn(sprintId, projectId, status);
       if (result) {

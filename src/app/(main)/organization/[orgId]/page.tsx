@@ -5,7 +5,6 @@ import { BarLoader } from "react-spinners";
 import { getOrganization } from "@/actions/organizations";
 import OrgSwitcher from "@/components/org-swith";
 import useFetch from "@/hooks/use-fetch";
-import { use } from "react";
 import { getProjects } from "@/actions/Project";
 import Projectlist from "./_components/projectlist";
 import { Button } from "@/components/ui/button";
@@ -13,11 +12,10 @@ import AddMembers from "./_components/add-members";
 import { getIssuesReportedByUser } from "@/actions/Issues";
 import { getIssuesReportedToUser } from "@/actions/Issues";
 import OrgIssueCard from "./_components/org-issue-card";
-import { is } from "date-fns/locale";
-const Organization = ({ params }: { params: Promise<{ orgId: string }> }) => {
-  const { orgId } = use(params);
+const Organization = ({ params }: { params: { orgId: string } }) => {
+  const { orgId } = params;
 
-  let [project, setProjects] = useState([]);
+  let [project, setProjects] = useState<any[]>([]);
   const { loading, error, data: organization, fn } = useFetch(getOrganization);
 
   const [openAddMembers, setAddMembersOpen] = useState(false);
@@ -30,7 +28,7 @@ const Organization = ({ params }: { params: Promise<{ orgId: string }> }) => {
     error: errorProjects,
     data: projects,
     fn: fnProjects,
-  } = useFetch(getProjects);
+  } = useFetch(getProjects) as { loading: boolean; error: any; data: any[] | null; fn: (orgId: string) => void };
 
   // delete project
   function ondelete() {
@@ -43,7 +41,7 @@ const Organization = ({ params }: { params: Promise<{ orgId: string }> }) => {
     error: issuesError,
     data: issues,
     fn: getIssuesFn,
-  } = useFetch(getIssuesReportedByUser);
+  } = useFetch(getIssuesReportedByUser) as { loading: boolean; error: any; data: any[] | null; fn: (orgId: string) => void };
 
   // get issues reported to user
   const {
@@ -51,7 +49,7 @@ const Organization = ({ params }: { params: Promise<{ orgId: string }> }) => {
     error: issuesToMeError,
     data: issuesToMe,
     fn: getIssuesToMeFn,
-  } = useFetch(getIssuesReportedToUser);
+  } = useFetch(getIssuesReportedToUser) as { loading: boolean; error: any; data: any[] | null; fn: (orgId: string) => void };
 
   useEffect(() => {
     fn(orgId);
@@ -76,7 +74,9 @@ const Organization = ({ params }: { params: Promise<{ orgId: string }> }) => {
 
   useEffect(() => {
     if (projects) {
-      setProjects(projects);
+      setProjects(projects as any[]);
+    } else {
+      setProjects([]);
     }
 
     console.log("projects", projects);
@@ -123,7 +123,7 @@ const Organization = ({ params }: { params: Promise<{ orgId: string }> }) => {
 
       {/* project list */}
       <div>
-        {project.length === 0 ? (
+        {project && project.length === 0 ? (
           <p className="text-gray-600">No projects found</p>
         ) : (
           // <div>
@@ -146,7 +146,7 @@ const Organization = ({ params }: { params: Promise<{ orgId: string }> }) => {
           // </div>
 
           <div className="ml-5">
-            <Projectlist projects={project} ondelete={ondelete} />
+            <Projectlist projects={project as any[]} ondelete={ondelete} />
 
           </div>
 
@@ -208,7 +208,7 @@ const Organization = ({ params }: { params: Promise<{ orgId: string }> }) => {
 
               return (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
-                  {list.map((issue) => (
+                  {list && list.map((issue: any) => (
                     <OrgIssueCard key={issue.id} issue={issue} />
                   ))}
                 </div>

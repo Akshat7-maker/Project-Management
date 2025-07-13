@@ -198,9 +198,10 @@ export default function Home() {
   };
 
   // Helper function to format time ago
-  const formatTimeAgo = (timestamp: Date) => {
+  const formatTimeAgo = (timestamp: Date | string) => {
+    const dateObj = typeof timestamp === 'string' ? new Date(timestamp) : timestamp;
     const now = new Date();
-    const diffInHours = Math.floor((now.getTime() - new Date(timestamp).getTime()) / (1000 * 60 * 60));
+    const diffInHours = Math.floor((now.getTime() - dateObj.getTime()) / (1000 * 60 * 60));
     
     if (diffInHours < 1) return "Just now";
     if (diffInHours < 24) return `${diffInHours} hours ago`;
@@ -274,7 +275,7 @@ export default function Home() {
                   {dashboardData?.totalProjects || 0}
                 </div>
                 <p className="text-xs text-gray-400 mt-1">
-                  {dashboardData?.projectsGrowth > 0 ? '+' : ''}{dashboardData?.projectsGrowth || 0} from last month
+                  {(dashboardData?.projectsGrowth ?? 0) > 0 ? '+' : ''}{dashboardData?.projectsGrowth ?? 0} from last month
                 </p>
               </CardContent>
             </Card>

@@ -21,7 +21,7 @@ const priorityColor = {
   URGENT: "border-red-400",
 };
 
-function IssueCard({ issue, showStatus = true, handleIssueCreated }: any) {
+function IssueCard({ issue, showStatus = true, handleIssueCreated }: any): JSX.Element {
   
   const created = formatDistanceToNow(new Date(issue.createdAt), {
     addSuffix: true,

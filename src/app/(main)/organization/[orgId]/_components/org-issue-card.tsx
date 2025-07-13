@@ -30,6 +30,9 @@ function OrgIssueCard({ issue }: { issue: any }) {
     addSuffix: true,
   });
 
+  const statusKey = issue.status as keyof typeof statusColor;
+  const priorityKey = issue.priority as keyof typeof priorityColor;
+
   return (
     <Card className="hover:shadow-lg transition-shadow">
       <CardHeader className="pb-2">
@@ -41,8 +44,8 @@ function OrgIssueCard({ issue }: { issue: any }) {
         </CardDescription>
       </CardHeader>
       <CardContent className="flex flex-wrap gap-2 items-center pb-2">
-        <Badge className={statusColor[issue.status] || ""}>{issue.status}</Badge>
-        <Badge variant="outline" className={priorityColor[issue.priority] || ""}>
+        <Badge className={statusColor[statusKey] || ""}>{issue.status}</Badge>
+        <Badge variant="outline" className={priorityColor[priorityKey] || ""}>
           {issue.priority}
         </Badge>
       </CardContent>

@@ -34,7 +34,7 @@ export default function IssueDetailsDialog({
   issue,
   onUpdate,
   borderCol = "",
-}) {
+}: any): JSX.Element {
   const [status, setStatus] = useState(issue.status);
   const [priority, setPriority] = useState(issue.priority);
   const { user } = useUser();
@@ -62,12 +62,12 @@ export default function IssueDetailsDialog({
     }
   };
 
-  const handleStatusChange = async (newStatus) => {
+  const handleStatusChange = async (newStatus: any) => {
     setStatus(newStatus);
     updateIssueFn(issue.id, { status: newStatus, priority });
   };
 
-  const handlePriorityChange = async (newPriority) => {
+  const handlePriorityChange = async (newPriority: any) => {
     setPriority(newPriority);
     updateIssueFn(issue.id, { status, priority: newPriority });
   };

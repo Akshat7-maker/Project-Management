@@ -6,10 +6,9 @@ import { notFound } from "next/navigation";
 import CreateSprint from "../_components/create-sprint";
 import SprintBoard from "../_components/sprint-board";
 import useFetch from "@/hooks/use-fetch";
-import {use } from "react";
 import { BarLoader } from "react-spinners";
-const ProjectPage = ({ params }: { params: Promise<{ projectId: string }> }) => {
-  const { projectId } = use(params);
+const ProjectPage = ({ params }: { params: { projectId: string } }) => {
+  const { projectId } = params;
 
 
   console.log("project id", projectId);
@@ -41,7 +40,7 @@ const ProjectPage = ({ params }: { params: Promise<{ projectId: string }> }) => 
       />
 
       {/* sprint board */}
-      {project?.sprints === 0 ? (
+      {project?.sprints?.length === 0 ? (
         <h1 className="text-2xl font-bold">No sprints found</h1>
       ) : (
         <SprintBoard

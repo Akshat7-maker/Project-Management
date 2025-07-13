@@ -2,9 +2,8 @@
 
 import { auth, clerkClient } from "@clerk/nextjs/server";
 import { db } from "@/lib/prisma";
-import { redirect } from "next/dist/server/api-utils";
 
-export async function getOrganization(slug: string) {
+export async function getOrganization(slug: any): Promise<any> {
   const { userId, orgId } = await auth();
 
   console.log("userId", userId);
@@ -65,7 +64,7 @@ export async function getOrganization(slug: string) {
 }
 
 
-export async function getOrganizationUsers(){
+export async function getOrganizationUsers(): Promise<any> {
 
   const { userId, orgId } = await auth();
 
@@ -79,7 +78,7 @@ export async function getOrganizationUsers(){
     organizationId: orgId,
   });
 
-  let usersArr = members.map((m) => m.publicUserData?.userId);
+  let usersArr = members.map((m) => m.publicUserData?.userId).filter((id): id is string => Boolean(id));
 
   const users = await db.user.findMany({
     where: {
@@ -97,14 +96,14 @@ export async function getOrganizationUsers(){
   
 }
 
-export async function inviteUser(emails: string[]) {
+export async function inviteUser(emails: any): Promise<any> {
 
   try {
     const { userId, orgId } = await auth();
   
     let client = await clerkClient();
   
-    const params = emails.map((email) => ({
+    const params = emails.map((email: string) => ({
       email_address: email,
        role: 'org:member',
        redirect_url: 'http://localhost:3000',

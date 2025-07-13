@@ -1,6 +1,6 @@
 "use client";
 
-import React, { use, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import SprintManager from "./sprint-manager";
 import { getIssues, updateIssueStatus } from "@/actions/Issues";
 import useFetch from "@/hooks/use-fetch";
@@ -12,15 +12,15 @@ import { closestCorners, DndContext, DragEndEvent, PointerSensor, useSensor, use
 import { set } from "date-fns";
 import { toast } from "react-hot-toast";
 
-const SprintBoard = ({ sprints, projectId, orgId }) => {
+const SprintBoard = ({ sprints, projectId, orgId }: any): JSX.Element => {
   // if(!sprints || !projectId || !orgId) return null
 
-  const [currSprint, setCurrSprint] = useState(
-    sprints.find((sprint) => sprint.status === "ACTIVE") || sprints[0]
+  const [currSprint, setCurrSprint] = useState<any>(
+    sprints.find((sprint: any) => sprint.status === "ACTIVE") || sprints[0]
   );
 
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const [issue, setIssue] = useState(null);
+  const [issue, setIssue] = useState<any>(null);
   const [isUpdating, setIsUpdating] = useState(false);
 
   const {
@@ -53,7 +53,7 @@ const SprintBoard = ({ sprints, projectId, orgId }) => {
     const newStatus = over.id;
 
     // Check if the issue is being dropped in a different status column
-    const currentIssue = issue.find((i) => i.id === issueId);
+    const currentIssue = issue.find((i: any) => i.id === issueId);
     if (!currentIssue || currentIssue.status === newStatus) {
       return; // No change needed
     }
@@ -62,8 +62,8 @@ const SprintBoard = ({ sprints, projectId, orgId }) => {
 
     try {
       // Optimistically update the UI first
-      setIssue((prevIssue) => {
-        return prevIssue.map((i) => {
+      setIssue((prevIssue: any) => {
+        return prevIssue.map((i: any) => {
           if (i.id === issueId) {
             return {
               ...i,
@@ -85,8 +85,8 @@ const SprintBoard = ({ sprints, projectId, orgId }) => {
       console.error("Error updating issue status:", error);
       
       // Revert the optimistic update on error
-      setIssue((prevIssue) => {
-        return prevIssue.map((i) => {
+      setIssue((prevIssue: any) => {
+        return prevIssue.map((i: any) => {
           if (i.id === issueId) {
             return {
               ...i,

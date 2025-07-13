@@ -3,7 +3,7 @@
 import { db } from "@/lib/prisma";
 import { auth, clerkClient } from "@clerk/nextjs/server";
 
-export async function getIssues(sprintId) {
+export async function getIssues(sprintId: any): Promise<any> {
   const { userId, orgId } = await auth();
 
   if (!userId || !orgId || !sprintId) {
@@ -35,7 +35,7 @@ export async function getIssues(sprintId) {
   return issues;
 }
 
-export async function createIssue(projectId, data) {
+export async function createIssue(projectId: any, data: any): Promise<any> {
   const { userId, orgId } = await auth();
 
   if (!userId || !orgId) {
@@ -43,6 +43,9 @@ export async function createIssue(projectId, data) {
   }
 
   let user = await db.user.findUnique({ where: { clerkUserId: userId } });
+  if (!user) {
+    throw new Error("Unauthorized");
+  }
 
   const lastIssue = await db.issue.findFirst({
     where: { projectId, status: data.status },
@@ -72,7 +75,7 @@ export async function createIssue(projectId, data) {
   return issue;
 }
 
-export async function deleteIssue(issueId) {
+export async function deleteIssue(issueId: any): Promise<any> {
   try {
     const deletedIssue = await db.issue.delete({ where: { id: issueId } });
     console.log("deletedIssue", deletedIssue);
@@ -83,7 +86,7 @@ export async function deleteIssue(issueId) {
   }
 }
 
-export async function updateIssue(issueId, data) {
+export async function updateIssue(issueId: any, data: any): Promise<any> {
   try {
     const updatedIssue = await db.issue.update({
       where: { id: issueId },
@@ -98,7 +101,7 @@ export async function updateIssue(issueId, data) {
 }
 
 // New function to update issue status and order when dragging
-export async function updateIssueStatus(issueId, newStatus, projectId) {
+export async function updateIssueStatus(issueId: any, newStatus: any, projectId: any): Promise<any> {
   const { userId, orgId } = await auth();
 
   if (!userId || !orgId) {
@@ -149,7 +152,7 @@ export async function updateIssueStatus(issueId, newStatus, projectId) {
   }
 }
 
-export async function getIssuesReportedByUser() {
+export async function getIssuesReportedByUser(): Promise<any> {
   try {
     const { userId, orgId } = await auth();
 
@@ -188,7 +191,7 @@ export async function getIssuesReportedByUser() {
   }
 }
 
-export async function getIssuesReportedToUser() {
+export async function getIssuesReportedToUser(): Promise<any> {
   try {
     const { userId, orgId } = await auth();
 

@@ -2,10 +2,9 @@
 
 import { db } from "@/lib/prisma";
 import { auth, clerkClient } from "@clerk/nextjs/server";
-import { use } from "react";
 import { canNotbeNull } from "@/lib/utils";
 
-export async function createProject(data: any) {
+export async function createProject(data: any): Promise<any> {
   const { userId, orgId } = await auth();
 
   console.log("userId", userId);
@@ -69,7 +68,7 @@ export async function createProject(data: any) {
   }
 }
 
-export async function getProject(projectId: string) {
+export async function getProject(projectId: any): Promise<any> {
   const { userId, orgId } = await auth();
 
   if (!userId || !orgId || !projectId) {
@@ -141,7 +140,7 @@ export async function getProject(projectId: string) {
   return project;
 }
 
-export async function getProjects() {
+export async function getProjects(): Promise<any> {
   const { userId, orgId } = await auth();
 
   console.log("get projects");
@@ -214,7 +213,7 @@ export async function getProjects() {
   return projects;
 }
 
-export async function deleteProject(projectId: string) {
+export async function deleteProject(projectId: any): Promise<any> {
   const { userId, orgId } = await auth();
 
   if(!userId || !orgId || !projectId) {

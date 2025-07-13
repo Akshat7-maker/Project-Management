@@ -4,7 +4,7 @@ import { db } from "@/lib/prisma";
 import { auth, clerkClient } from "@clerk/nextjs/server";
 
 // Dashboard Overview Data
-export async function getDashboardOverview() {
+export async function getDashboardOverview(): Promise<any> {
   const { userId } = await auth();
 
   if (!userId) {
@@ -167,7 +167,7 @@ export async function getDashboardOverview() {
 }
 
 // Recent Activity Feed
-export async function getRecentActivity() {
+export async function getRecentActivity(): Promise<any> {
   const { userId } = await auth();
 
   if (!userId) {
@@ -331,7 +331,7 @@ export async function getRecentActivity() {
 
     // Sort by timestamp and return top 10
     return activities
-      .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())
+      .sort((a: any, b: any) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())
       .slice(0, 10);
 
   } catch (error) {
@@ -341,7 +341,7 @@ export async function getRecentActivity() {
 }
 
 // User's Organizations Summary
-export async function getUserOrganizations() {
+export async function getUserOrganizations(): Promise<any> {
   const { userId } = await auth();
 
   if (!userId) {
@@ -406,7 +406,7 @@ export async function getUserOrganizations() {
 }
 
 // Quick Stats for Dashboard Cards
-export async function getQuickStats() {
+export async function getQuickStats(): Promise<any> {
   const { userId } = await auth();
 
   if (!userId) {
@@ -492,7 +492,7 @@ export async function getQuickStats() {
 }
 
 // Get user's recent projects
-export async function getRecentProjects() {
+export async function getRecentProjects(): Promise<any> {
   const { userId } = await auth();
 
   if (!userId) {

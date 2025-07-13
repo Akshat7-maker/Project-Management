@@ -1,18 +1,18 @@
 "use client";
 
-import { useState } from "react";
+import { JSX, useState } from "react";
 import { inviteUser } from "@/actions/organizations";
 import toast from "react-hot-toast";
 
 
 
-export default function AddMembers({setAddMembersOpen}) {
+export default function AddMembers({setAddMembersOpen}: any): JSX.Element {
   const [isOpen, setIsOpen] = useState(false);
   const [emails, setEmails] = useState([""]);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
-  const handleEmailChange = (index, value) => {
+  const handleEmailChange = (index: any, value: any) => {
     const updatedEmails = [...emails];
     updatedEmails[index] = value;
     setEmails(updatedEmails);
@@ -22,12 +22,12 @@ export default function AddMembers({setAddMembersOpen}) {
     setEmails([...emails, ""]);
   };
 
-  const removeEmailField = (index) => {
+  const removeEmailField = (index: any) => {
     const updatedEmails = emails.filter((_, i) => i !== index);
     setEmails(updatedEmails);
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
     const trimmedEmails = emails.map(email => email.trim()).filter(email => email);
 

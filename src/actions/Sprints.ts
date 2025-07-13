@@ -2,9 +2,8 @@
 
 import { db } from "@/lib/prisma";
 import { auth, clerkClient } from "@clerk/nextjs/server";
-import { console } from "inspector";
 
-export async function createSprint(projectId: string, data: any) {
+export async function createSprint(projectId: any, data: any): Promise<any> {
   const { userId, orgId } = await auth();
   
 
@@ -76,7 +75,7 @@ export async function createSprint(projectId: string, data: any) {
   return sprint;
 }
 
-export async function changeSprintStatus(sprintId: string, projectId: string, status: string) {
+export async function changeSprintStatus(sprintId: any, projectId: any, status: any): Promise<any> {
 
   try {
   console.log("change sprint status");

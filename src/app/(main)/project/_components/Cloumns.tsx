@@ -4,12 +4,12 @@ import { Plus } from "lucide-react";
 import IssueCard from "./issue-card";
 import { useDroppable } from "@dnd-kit/core";
 
-function Cloumns({ column, issues, addIssue, handleIssueCreated }: any) {
+function Cloumns({ column, issues, addIssue, handleIssueCreated }: any): JSX.Element {
   const filteredIssues = issues.filter(
     (issue: any) => issue.status === column.key
   );
 
-  const handleAddIssue = (status: string) => {
+  const handleAddIssue = (status: any) => {
     addIssue();
   };
 

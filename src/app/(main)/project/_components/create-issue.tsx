@@ -27,7 +27,7 @@ export default function IssueCreationPopup({
   projectId,
   onIssueCreated,
   orgId,
-}) {
+}: any): JSX.Element {
   const {
     loading: createIssueLoading,
     fn: createIssueFn,
@@ -63,7 +63,7 @@ export default function IssueCreationPopup({
     }
   }, [isOpen, orgId]);
 
-  const onSubmit = async (data) => {
+  const onSubmit = async (data: any) => {
     console.log("Submit triggered");
     console.log("data", data);
     await createIssueFn(projectId, {
