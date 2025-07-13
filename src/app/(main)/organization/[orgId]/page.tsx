@@ -12,7 +12,11 @@ import AddMembers from "./_components/add-members";
 import { getIssuesReportedByUser } from "@/actions/Issues";
 import { getIssuesReportedToUser } from "@/actions/Issues";
 import OrgIssueCard from "./_components/org-issue-card";
-const Organization = ({ params }: { params: { orgId: string } }) => {
+type PageProps = {
+  params: { orgId: string }
+};
+
+const Organization = ({ params }: PageProps) => {
   const { orgId } = params;
 
   let [project, setProjects] = useState<any[]>([]);

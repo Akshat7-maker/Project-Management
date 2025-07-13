@@ -7,7 +7,11 @@ import CreateSprint from "../_components/create-sprint";
 import SprintBoard from "../_components/sprint-board";
 import useFetch from "@/hooks/use-fetch";
 import { BarLoader } from "react-spinners";
-const ProjectPage = ({ params }: { params: { projectId: string } }) => {
+type PageProps = {
+  params: { projectId: string }
+};
+
+const ProjectPage = ({ params }: PageProps) => {
   const { projectId } = params;
 
 
