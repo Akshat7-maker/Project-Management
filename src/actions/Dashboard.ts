@@ -278,7 +278,7 @@ export async function getRecentActivity() {
     });
 
     // Format activities
-    const activities = [];
+    const activities:any = [];
 
     // Add completed sprints
     completedSprints.forEach(sprint => {
