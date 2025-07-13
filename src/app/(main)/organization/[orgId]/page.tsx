@@ -12,12 +12,22 @@ import AddMembers from "./_components/add-members";
 import { getIssuesReportedByUser } from "@/actions/Issues";
 import { getIssuesReportedToUser } from "@/actions/Issues";
 import OrgIssueCard from "./_components/org-issue-card";
+interface Props {
+  params: {
+    orgId: string;
+  };
+}
 
-const Organization = ({ params }: { params: { orgId: string } }) => {
+const Organization = ({ params }: Props) => {
   const { orgId } = params;
 
   let [project, setProjects] = useState<any[]>([]);
-  const { loading, error, data: organization, fn } = useFetch(getOrganization);
+  const { loading, error, data: organization, fn } = useFetch(getOrganization) as {
+    loading: boolean;
+    error: any;
+    data: { id: string; name: string; slug: string } | null;
+    fn: (orgId: string) => void;
+  };
 
   const [openAddMembers, setAddMembersOpen] = useState(false);
 
