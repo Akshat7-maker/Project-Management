@@ -21,7 +21,26 @@ const priorityColor = {
   URGENT: "border-red-400",
 };
 
-function IssueCard({ issue, showStatus = true, handleIssueCreated }: any): JSX.Element {
+interface Issue {
+  id: string;
+  title: string;
+  status: string;
+  createdAt: string;
+  priority: string;
+  description: string;
+  assignee: any;
+  reporter: { clerkUserId: string };
+  projectId: string;
+  sprintId: string;
+}
+
+interface IssueCardProps {
+  issue: Issue;
+  showStatus?: boolean;
+  handleIssueCreated: () => void;
+}
+
+function IssueCard({ issue, showStatus = true, handleIssueCreated }: IssueCardProps) {
   
   const created = formatDistanceToNow(new Date(issue.createdAt), {
     addSuffix: true,
@@ -51,7 +70,7 @@ function IssueCard({ issue, showStatus = true, handleIssueCreated }: any): JSX.E
           onClick={() => setIsDialogOpen(true)}
         >
           <CardHeader
-            className={`border-t-2 ${priorityColor[issue.priority]} rounded-lg relative`}
+            className={`border-t-2 ${priorityColor[issue.priority as keyof typeof priorityColor]} rounded-lg relative`}
           >
             <CardTitle className="pr-8">{issue.title}</CardTitle>
             

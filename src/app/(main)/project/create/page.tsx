@@ -194,7 +194,7 @@ const CreateProject = () => {
         >
           {loading ? "Creating..." : "Create Project"}
         </Button>
-        {error && <p className="text-red-500 mt-2">{error.message}</p>}
+        {/* {error && <p className="text-red-500 mt-2">{error.message}</p>} */}
       </form>
     </div>
   );

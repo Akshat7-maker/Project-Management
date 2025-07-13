@@ -16,7 +16,23 @@ import useFetch from "@/hooks/use-fetch";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 
-const CreateSprint = ({ projectTitle, projectId, projectKey, sprintKey , onSprintCreated}) => {
+interface CreateSprintProps {
+  projectTitle: string;
+  projectId: string;
+  projectKey: string;
+  sprintKey: string;
+  onSprintCreated: () => void;
+}
+
+interface SprintFormData {
+  name: string;
+  dateRange: {
+    from: Date;
+    to: Date;
+  };
+}
+
+const CreateSprint = ({ projectTitle, projectId, projectKey, sprintKey , onSprintCreated }: CreateSprintProps) => {
   const [showform, setShowForm] = React.useState(false);
   const {
     loading: sprintLoading,
@@ -33,7 +49,7 @@ const CreateSprint = ({ projectTitle, projectId, projectKey, sprintKey , onSprin
     watch,
     formState: { errors },
     control,
-  } = useForm({
+  } = useForm<SprintFormData>({
     defaultValues: {
       name: `${projectKey}-${sprintKey}`,
       dateRange: {
@@ -43,7 +59,7 @@ const CreateSprint = ({ projectTitle, projectId, projectKey, sprintKey , onSprin
     },
   });
 
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: SprintFormData) => {
     try {
       const result = await createSprintFn(projectId, data);
       if (result) {

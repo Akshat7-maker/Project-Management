@@ -156,7 +156,7 @@ export async function changeSprintStatus(sprintId: any, projectId: any, status: 
     });
   
     return sprint;
-  } catch (error) {
+  } catch (error: any) {
 
     throw new Error(error.message);
     

@@ -20,7 +20,7 @@ const Onboarding = () => {
 
     let [loading, setLoading] = React.useState(false);
 
-    const handleOrganizationSelect = (organization: { slug: string }) => {
+    const handleOrganizationSelect = (organization: any) => {
       setLoading(true);
       return `/organization/${organization.slug}`
     }

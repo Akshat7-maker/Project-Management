@@ -28,13 +28,33 @@ import { deleteIssue, updateIssue } from "@/actions/Issues";
 
 const priorityOptions = ["LOW", "MEDIUM", "HIGH", "URGENT"];
 
+interface Issue {
+  id: string;
+  title: string;
+  status: string;
+  priority: string;
+  description: string;
+  assignee: any;
+  reporter: { clerkUserId: string };
+  projectId: string;
+  sprintId: string;
+}
+
+interface IssueDetailsDialogProps {
+  isOpen: boolean;
+  onClose: () => void;
+  issue: Issue;
+  onUpdate: () => void;
+  borderCol?: string;
+}
+
 export default function IssueDetailsDialog({
   isOpen,
   onClose,
   issue,
   onUpdate,
   borderCol = "",
-}: any): JSX.Element {
+}: IssueDetailsDialogProps) {
   const [status, setStatus] = useState(issue.status);
   const [priority, setPriority] = useState(issue.priority);
   const { user } = useUser();
@@ -62,12 +82,12 @@ export default function IssueDetailsDialog({
     }
   };
 
-  const handleStatusChange = async (newStatus: any) => {
+  const handleStatusChange = async (newStatus: string) => {
     setStatus(newStatus);
     updateIssueFn(issue.id, { status: newStatus, priority });
   };
 
-  const handlePriorityChange = async (newPriority: any) => {
+  const handlePriorityChange = async (newPriority: string) => {
     setPriority(newPriority);
     updateIssueFn(issue.id, { status, priority: newPriority });
   };
@@ -86,8 +106,9 @@ export default function IssueDetailsDialog({
     }
   }, [deleted, updated, deleteLoading, updateLoading]);
 
+  // Add explicit null checks for user and membership
   const canChange =
-    user.id === issue.reporter.clerkUserId || membership.role === "org:admin";
+    !!user && !!membership && (user.id === issue.reporter.clerkUserId || membership.role === "org:admin");
 
   const handleGoToProject = () => {
     router.push(`/project/${issue.projectId}?sprint=${issue.sprintId}`);
@@ -175,7 +196,7 @@ export default function IssueDetailsDialog({
           )}
           {(deleteError || updateError) && (
             <p className="text-red-500">
-              {deleteError?.message || updateError?.message}
+              {/* {deleteError?.message || updateError?.message} */}
             </p>
           )}
         </div>

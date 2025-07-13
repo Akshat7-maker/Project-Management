@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { JSX, useEffect } from "react";
 import { BarLoader } from "react-spinners";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -19,6 +19,21 @@ import { createIssue } from "@/actions/Issues";
 import { getOrganizationUsers } from "@/actions/organizations";
 import { issueSchema } from "@/lib/validators";
 
+interface IssueCreationPopupProps {
+  isOpen: boolean;
+  onClose: () => void;
+  sprintId: string;
+  status: string;
+  projectId: string;
+  onIssueCreated: () => void;
+  orgId: string;
+}
+
+interface User {
+  id: string;
+  name: string;
+}
+
 export default function IssueCreationPopup({
   isOpen,
   onClose,
@@ -27,7 +42,7 @@ export default function IssueCreationPopup({
   projectId,
   onIssueCreated,
   orgId,
-}: any): JSX.Element {
+}: IssueCreationPopupProps) {
   const {
     loading: createIssueLoading,
     fn: createIssueFn,
@@ -39,7 +54,11 @@ export default function IssueCreationPopup({
     loading: usersLoading,
     fn: fetchUsers,
     data: users,
-  } = useFetch(getOrganizationUsers);
+  } = useFetch(getOrganizationUsers) as {
+    loading: boolean;
+    fn: (orgId: string) => void;
+    data: User[] | null;
+  };
 
   const {
     control,
@@ -63,7 +82,7 @@ export default function IssueCreationPopup({
     }
   }, [isOpen, orgId]);
 
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: Record<string, any>) => {
     console.log("Submit triggered");
     console.log("data", data);
     await createIssueFn(projectId, {
@@ -128,7 +147,7 @@ export default function IssueCreationPopup({
                         <SelectValue placeholder="Select assignee" />
                       </SelectTrigger>
                       <SelectContent>
-                        {users?.map((user) => (
+                        {users?.map((user: User) => (
                           <SelectItem key={user.id} value={user.id}>
                             {user?.name}
                           </SelectItem>
@@ -212,7 +231,7 @@ export default function IssueCreationPopup({
                 />
               </div>
 
-              {error && <p className="text-red-500 mt-2">{error.message}</p>}
+              {/* {error && <p className="text-red-500 mt-2">{error.message}</p>} */}
 
               <button
                 type="submit"

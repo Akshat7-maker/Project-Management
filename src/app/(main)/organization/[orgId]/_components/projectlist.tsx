@@ -15,7 +15,7 @@ interface Project {
 
 interface ProjectListProps {
   projects: Project[];
-  ondelete: (id: string) => void;
+  ondelete: () => void;
 }
 
 function Projectlist({ projects, ondelete }: ProjectListProps) {

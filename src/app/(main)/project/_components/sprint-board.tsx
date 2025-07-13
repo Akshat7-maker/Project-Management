@@ -12,15 +12,40 @@ import { closestCorners, DndContext, DragEndEvent, PointerSensor, useSensor, use
 import { set } from "date-fns";
 import { toast } from "react-hot-toast";
 
-const SprintBoard = ({ sprints, projectId, orgId }: any): JSX.Element => {
+interface Sprint {
+  id: string;
+  status: string;
+  [key: string]: any;
+}
+
+interface Issue {
+  id: string;
+  title: string;
+  status: string;
+  createdAt: string;
+  priority: string;
+  description: string;
+  assignee: any;
+  reporter: { clerkUserId: string };
+  projectId: string;
+  sprintId: string;
+}
+
+interface SprintBoardProps {
+  sprints: Sprint[];
+  projectId: string;
+  orgId: string;
+}
+
+const SprintBoard = ({ sprints, projectId, orgId }: SprintBoardProps) => {
   // if(!sprints || !projectId || !orgId) return null
 
-  const [currSprint, setCurrSprint] = useState<any>(
-    sprints.find((sprint: any) => sprint.status === "ACTIVE") || sprints[0]
+  const [currSprint, setCurrSprint] = useState<Sprint>(
+    sprints.find((sprint) => sprint.status === "ACTIVE") || sprints[0]
   );
 
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const [issue, setIssue] = useState<any>(null);
+  const [issue, setIssue] = useState<Issue[] | null>(null);
   const [isUpdating, setIsUpdating] = useState(false);
 
   const {
@@ -53,7 +78,7 @@ const SprintBoard = ({ sprints, projectId, orgId }: any): JSX.Element => {
     const newStatus = over.id;
 
     // Check if the issue is being dropped in a different status column
-    const currentIssue = issue.find((i: any) => i.id === issueId);
+    const currentIssue = issue?.find((i) => i.id === issueId);
     if (!currentIssue || currentIssue.status === newStatus) {
       return; // No change needed
     }
@@ -63,6 +88,7 @@ const SprintBoard = ({ sprints, projectId, orgId }: any): JSX.Element => {
     try {
       // Optimistically update the UI first
       setIssue((prevIssue: any) => {
+        if (!prevIssue) return prevIssue;
         return prevIssue.map((i: any) => {
           if (i.id === issueId) {
             return {
@@ -85,8 +111,9 @@ const SprintBoard = ({ sprints, projectId, orgId }: any): JSX.Element => {
       console.error("Error updating issue status:", error);
       
       // Revert the optimistic update on error
-      setIssue((prevIssue: any) => {
-        return prevIssue.map((i: any) => {
+      setIssue((prevIssue) => {
+        if (!prevIssue) return prevIssue;
+        return prevIssue.map((i) => {
           if (i.id === issueId) {
             return {
               ...i,

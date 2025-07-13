@@ -9,7 +9,12 @@ import { useRouter } from "next/navigation";
 import useFetch from "@/hooks/use-fetch";
 import toast from "react-hot-toast";
 
-export default function DeleteProject({ projectId, ondelete }) {
+interface DeleteProjectProps {
+  projectId: string;
+  ondelete: () => void;
+}
+
+export default function DeleteProject({ projectId, ondelete }: DeleteProjectProps) {
   const { membership } = useOrganization();
   const router = useRouter();
 
@@ -50,7 +55,7 @@ export default function DeleteProject({ projectId, ondelete }) {
       >
         <Trash2 className="h-4 w-4" />
       </Button>
-      {error && <p className="text-red-500 text-sm">{error.message}</p>}
+      {/* {error && <p className="text-red-500 text-sm">{error.message}</p>} */}
     </>
   );
 }

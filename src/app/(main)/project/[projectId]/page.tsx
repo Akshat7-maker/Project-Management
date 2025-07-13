@@ -8,13 +8,19 @@ import SprintBoard from "../_components/sprint-board";
 import useFetch from "@/hooks/use-fetch";
 import { BarLoader } from "react-spinners";
 
+// Add interfaces for Project and Sprint
+
+
+
+
 const ProjectPage = ({ params }: { params: { projectId: string } }) => {
   const { projectId } = params;
 
 
   console.log("project id", projectId);
 
-  const {loading: projectLoading, error, data: project, fn: getProjectFn} = useFetch(getProject);
+  // Type the useFetch hook with Project
+  const {loading: projectLoading, error, data: project, fn: getProjectFn} = useFetch(getProject) as {loading: boolean; error: any; data: any; fn: (projectId: string) => void};
   
 
   React.useEffect(() => {

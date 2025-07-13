@@ -1,7 +1,7 @@
 import React from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 
-const UserAvatar = ({ user }) => {
+const UserAvatar = ({ user }: { user: any }) => {
   return (
     <div className="flex items-center space-x-2 w-full">
       <Avatar className="h-6 w-6">

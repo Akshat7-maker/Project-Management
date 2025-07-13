@@ -12,13 +12,8 @@ import AddMembers from "./_components/add-members";
 import { getIssuesReportedByUser } from "@/actions/Issues";
 import { getIssuesReportedToUser } from "@/actions/Issues";
 import OrgIssueCard from "./_components/org-issue-card";
-interface Props {
-  params: {
-    orgId: string;
-  };
-}
 
-const Organization = ({ params }: Props) => {
+const Organization = ({ params }: { params: { orgId: string } }) => {
   const { orgId } = params;
 
   let [project, setProjects] = useState<any[]>([]);

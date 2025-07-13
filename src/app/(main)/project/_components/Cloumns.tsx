@@ -1,15 +1,40 @@
-import React from "react";
+import React, { JSX } from "react";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import IssueCard from "./issue-card";
 import { useDroppable } from "@dnd-kit/core";
 
-function Cloumns({ column, issues, addIssue, handleIssueCreated }: any): JSX.Element {
+interface Issue {
+  id: string;
+  title: string;
+  createdAt: string;
+  status: string;
+  priority: string;
+  description: string;
+  assignee: any;
+  reporter: { clerkUserId: string };
+  projectId: string;
+  sprintId: string;
+}
+
+interface Column {
+  key: string;
+  name: string;
+}
+
+interface CloumnsProps {
+  column: Column;
+  issues: Issue[];
+  addIssue: () => void;
+  handleIssueCreated: () => void;
+}
+
+function Cloumns({ column, issues, addIssue, handleIssueCreated }: CloumnsProps) {
   const filteredIssues = issues.filter(
-    (issue: any) => issue.status === column.key
+    (issue) => issue.status === column.key
   );
 
-  const handleAddIssue = (status: any) => {
+  const handleAddIssue = (status: string) => {
     addIssue();
   };
 
@@ -36,7 +61,7 @@ function Cloumns({ column, issues, addIssue, handleIssueCreated }: any): JSX.Ele
         ref={setNodeRef}
       >
         {filteredIssues.length > 0 ? (
-          filteredIssues.map((issue: any) => (
+          filteredIssues.map((issue) => (
             <IssueCard
               key={issue.id}
               issue={issue}
