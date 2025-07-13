@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import {use} from "react";
 import { getProject } from "@/actions/Project";
 import { notFound } from "next/navigation";
 import CreateSprint from "../_components/create-sprint";
@@ -13,8 +14,8 @@ import { BarLoader } from "react-spinners";
 
 
 
-const ProjectPage = ({ params }: { params: { projectId: string } }) => {
-  const { projectId } = params;
+const ProjectPage = ({ params }: { params: Promise<{ projectId: string }> }) => {
+  const { projectId } = use(params);
 
 
   console.log("project id", projectId);

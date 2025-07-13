@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import { BarLoader } from "react-spinners";
 import { getOrganization } from "@/actions/organizations";
 import OrgSwitcher from "@/components/org-swith";
@@ -13,8 +13,8 @@ import { getIssuesReportedByUser } from "@/actions/Issues";
 import { getIssuesReportedToUser } from "@/actions/Issues";
 import OrgIssueCard from "./_components/org-issue-card";
 
-const Organization = ({ params }: { params: { orgId: string } }) => {
-  const { orgId } = params;
+const Organization = ({ params }: { params: Promise<{ orgId: string }> }) => {
+  const { orgId } = use(params);
 
   let [project, setProjects] = useState<any[]>([]);
   const { loading, error, data: organization, fn } = useFetch(getOrganization) as {
