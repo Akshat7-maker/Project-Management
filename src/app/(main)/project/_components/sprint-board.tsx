@@ -12,10 +12,16 @@ import { closestCorners, DndContext, DragEndEvent, PointerSensor, useSensor, use
 import { set } from "date-fns";
 import { toast } from "react-hot-toast";
 
-interface Sprint {
+export interface Sprint {
   id: string;
-  status: string;
-  [key: string]: any;
+  name: string;
+  startDate: string;
+  endDate: string;
+  status: "PLANNED" | "ACTIVE" | "COMPLETED";
+  // Add any other properties your Sprint might have
+  projectId?: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 interface Issue {
@@ -31,7 +37,7 @@ interface Issue {
   sprintId: string;
 }
 
-interface SprintBoardProps {
+export interface SprintBoardProps {
   sprints: Sprint[];
   projectId: string;
   orgId: string;
@@ -139,7 +145,6 @@ const SprintBoard = ({ sprints, projectId, orgId }: SprintBoardProps) => {
         setSprint={setCurrSprint}
         sprints={sprints}
         projectId={projectId}
-        orgId={orgId}
       />
 
       {/* fetch issues for selected sprint */}

@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { JSX } from "react";
 
 import {
   Select,
@@ -16,7 +16,25 @@ import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 
-function SprintManager({ sprints, projectId, orgId, setSprint, sprint }: any): JSX.Element {
+export interface Sprint {
+  id: string;
+  name: string;
+  startDate: string;
+  endDate: string;
+  status: "PLANNED" | "ACTIVE" | "COMPLETED";
+  // Add any other properties your Sprint might have
+  projectId?: string;
+  createdAt?: string;
+  updatedAt?: string;
+  
+}export interface SprintManagerProps {
+  sprints: Sprint[];
+  projectId: string;
+  setSprint: React.Dispatch<React.SetStateAction<Sprint>>;
+  sprint: Sprint;
+}
+
+function SprintManager({ sprints, projectId, setSprint, sprint }: SprintManagerProps): JSX.Element {
   console.log("sprints", sprints);
 
   const router = useRouter();
@@ -46,13 +64,15 @@ function SprintManager({ sprints, projectId, orgId, setSprint, sprint }: any): J
   console.log("canEnd", canEnd);
 
   //   handle sprint change
-  const handleSprintChange = (value: any) => {
+  const handleSprintChange = (value: string) => {
     const selectedSprint = sprints.find((sprint) => sprint.id === value);
-    setSprint(selectedSprint);
+    if (selectedSprint) {
+      setSprint(selectedSprint);
+    }
   };
 
   //   handle sprint status change
-  const handleSprintStatusChange = async (sprintId: any, status: any) => {
+  const handleSprintStatusChange = async (sprintId: string, status: Sprint["status"]) => {
     try {
       const result = await updatedSprintFn(sprintId, projectId, status);
       if (result) {
@@ -78,7 +98,7 @@ function SprintManager({ sprints, projectId, orgId, setSprint, sprint }: any): J
             <SelectValue placeholder="Select a Sprint" />
           </SelectTrigger>
           <SelectContent>
-            {sprints.map((sprint) => (
+            {sprints?.map((sprint: Sprint) => (
               <SelectItem key={sprint.id} value={sprint.id}>
                 {sprint.name}
               </SelectItem>
